@@ -2,11 +2,11 @@ import  express, { Request, Response }  from "express";
 import cors from "cors";
 import morgan from "morgan";
 
-import dbconnect  from './config'
-import usersRoutes from './routes/usersRoutes'
+//import dbconnect  from './config';
+import run  from './config';
+import usersRoutes from './routes/usersRoutes';
 
-const HTTP_PORT = 80;
-const HTTPS_PORT = 443;
+const PORT = process.env.PORT || 5000;
 
 const app = express()
 
@@ -21,8 +21,8 @@ app.use(express.json());
 
 app.use('/users', usersRoutes);
 
-app.listen(HTTPS_PORT, () => {
+app.listen(PORT, () => {
     console.log('server up')
 });
 
-dbconnect();
+run();
