@@ -1,4 +1,4 @@
-import  express  from "express";
+import  express, { Request, Response }  from "express";
 import cors from "cors";
 import morgan from "morgan";
 
@@ -7,6 +7,10 @@ import usersRoutes from './routes/usersRoutes'
 
 const app = express()
 
+app.get('/', (req: Request, res: Response) => {
+    console.log('get /')
+    res.send('get /');
+})
 
 app.use(morgan('dev'));
 app.use(cors())

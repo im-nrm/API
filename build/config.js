@@ -7,6 +7,6 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const DB_URL = 'mongodb://localhost:27017/';
 const dbconnect = () => {
     mongoose_1.default.set('strictQuery', true);
-    mongoose_1.default.connect(DB_URL + 'users', {}).then(() => { console.log('Connexion to DB OK'); }, (err) => { console.log('Connexion to DB FAILED'); });
+    mongoose_1.default.connect(DB_URL + 'API_test', {}).then(() => { console.log('Connexion to DB OK'); }, (err) => { console.log('Connexion to DB FAILED', err); });
 };
 exports.default = dbconnect;
