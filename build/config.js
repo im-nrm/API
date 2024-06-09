@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongodb_1 = require("mongodb");
+const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 // const DB_URL = 'mongodb://localhost:27017/';
-const DB_URL = 'mongodb+srv://nrm:api_test@api.33sl9ib.mongodb.net/?retryWrites=true&w=majority&appName=API';
 // const dbconnect = () =>{
 //     mongoose.set('strictQuery', true)
 //     mongoose.connect(DB_URL+'/sample_mflix', {}).then(
@@ -20,29 +24,38 @@ const DB_URL = 'mongodb+srv://nrm:api_test@api.33sl9ib.mongodb.net/?retryWrites=
 //       );
 // }
 // export default dbconnect;
+// const URL = process.env.MONGODB_URL;
+// console.log(URL)
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new mongodb_1.MongoClient(DB_URL, {
-    serverApi: {
-        version: mongodb_1.ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
+// const client = new MongoClient(URL + '/API', {
+//   serverApi: {
+//     version: ServerApiVersion.v1,
+//     strict: true,
+//     deprecationErrors: true,
+//   }
+// });
+// async function run() {
+//   try {
+//     // Connect the client to the server	(optional starting in v4.7)
+//     await client.connect();
+//     // Send a ping to confirm a successful connection
+//     await client.db("admin").command({ ping: 1 });
+//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// }
+const URL = process.env.MONGODB_URL || '';
+const run = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connect = yield mongoose_1.default.connect(URL);
+        console.log('conectado a MongoDB');
+        return connect;
+    }
+    catch (error) {
+        console.log(error);
     }
 });
-console.log(client);
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            // Connect the client to the server	(optional starting in v4.7)
-            yield client.connect();
-            // Send a ping to confirm a successful connection
-            yield client.db("admin").command({ ping: 1 });
-            console.log("Pinged your deployment. You successfully connected to MongoDB!");
-        }
-        finally {
-            // Ensures that the client will close when you finish/error
-            yield client.close();
-        }
-    });
-}
 exports.default = run;
 //run().catch(console.dir);

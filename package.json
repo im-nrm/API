@@ -14,7 +14,10 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+    "custom-env": "^2.0.2",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mongodb": "^6.7.0",
     "mongoose": "^8.4.1",
     "morgan": "^1.10.0",
     "ts-node-dev": "^2.0.0"
