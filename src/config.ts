@@ -40,7 +40,7 @@ dotenv.config();
 //   }
 // }
 
-const URL = process.env.MONGODB_URL || '';
+const URL = process.env.MONGODB_URL!;
 
 const run = async()=>{
   try {
