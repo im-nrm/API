@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import ModelUser from "../models/usersModel";
+import ModelUser from "../users/usersModel";
+import { Encrypt } from "../core/encrypt/encrypt";
 
-class UsersController{
+class UsersCtrl{
     constructor(){
 
     }
-
     async getList(req: Request, res: Response){
         try {
 
@@ -32,8 +32,11 @@ class UsersController{
     async update(req: Request, res: Response){
         const {id} = req.params;
         const body = req.body;
+        body.password = Encrypt.encryptPassword(body.password)
 
         const response = await ModelUser.findByIdAndUpdate(id, body)
+
+        
         res.json(response)
     }
 
@@ -45,4 +48,4 @@ class UsersController{
 
 
 }
-export default new UsersController();
+export default new UsersCtrl();

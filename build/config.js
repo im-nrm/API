@@ -46,7 +46,7 @@ dotenv_1.default.config();
 //     await client.close();
 //   }
 // }
-const URL = process.env.MONGODB_URL || '';
+const URL = process.env.MONGODB_URL;
 const run = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const connect = yield mongoose_1.default.connect(URL);
@@ -59,3 +59,4 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.default = run;
 //run().catch(console.dir);
+//# sourceMappingURL=config.js.map

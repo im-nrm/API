@@ -1,0 +1,25 @@
+
+{
+    "version": "1.0.0",
+    "configurations": [
+        {
+            "name": "API debugg",
+            // "runtimeVersion": "20.14.0",
+            "preLaunchTask": "npm: build", // npm run build
+            "runtimeArgs": ["start"], // npm run start
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "type": "node",
+            "skipFiles": ["<node_internals>/**"],
+        },
+        {
+            "name": "API Watch",
+            // "runtimeVersion": "20.14.0",
+            "runtimeArgs": ["dev"], // npm run start:dev
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "type": "node",
+            "skipFiles": ["<node_internals>/**"],
+        }
+    ]
+}
