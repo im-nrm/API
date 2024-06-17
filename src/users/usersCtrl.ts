@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ModelUser from "../users/usersModel";
+import ModelUser from "../users/userModel";
 import { Encrypt } from "../core/encrypt/encrypt";
 
 class UsersCtrl{
@@ -23,7 +23,7 @@ class UsersCtrl{
         const response = await ModelUser.findById(id)
         res.json(response)
     }
-     async post(req: Request, res: Response){
+    async post(req: Request, res: Response){
         const body = req.body;
         const response = await ModelUser.create(body)
         res.send(response);
@@ -32,7 +32,6 @@ class UsersCtrl{
     async update(req: Request, res: Response){
         const {id} = req.params;
         const body = req.body;
-        body.password = Encrypt.encryptPassword(body.password)
 
         const response = await ModelUser.findByIdAndUpdate(id, body)
 
