@@ -12,15 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const usersModel_1 = __importDefault(require("../users/usersModel"));
-const encrypt_1 = require("../core/encrypt/encrypt");
+const userModel_1 = __importDefault(require("../users/userModel"));
 class UsersCtrl {
     constructor() {
     }
     getList(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield usersModel_1.default.find({});
+                const response = yield userModel_1.default.find({});
                 res.json(response);
             }
             catch (error) {
@@ -32,14 +31,14 @@ class UsersCtrl {
     getItem(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const response = yield usersModel_1.default.findById(id);
+            const response = yield userModel_1.default.findById(id);
             res.json(response);
         });
     }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = req.body;
-            const response = yield usersModel_1.default.create(body);
+            const response = yield userModel_1.default.create(body);
             res.send(response);
         });
     }
@@ -47,15 +46,14 @@ class UsersCtrl {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             const body = req.body;
-            encrypt_1.Encrypt.encryptPassword(body.password);
-            const response = yield usersModel_1.default.findByIdAndUpdate(id, body);
+            const response = yield userModel_1.default.findByIdAndUpdate(id, body);
             res.json(response);
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const response = yield usersModel_1.default.findByIdAndDelete(id);
+            const response = yield userModel_1.default.findByIdAndDelete(id);
             res.json(response);
         });
     }

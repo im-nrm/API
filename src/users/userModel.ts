@@ -44,6 +44,14 @@ const userModel = new mongoose.Schema(
         commentsDisliked:{
             type: [mongoose.Types.ObjectId],
             ref: 'comments'
+        },
+        newsLiked:{
+            type: [mongoose.Types.ObjectId],
+            ref: 'news'
+        },
+        newsBookmarked:{
+            type: [mongoose.Types.ObjectId],
+            ref: 'news'
         }
     },
     {

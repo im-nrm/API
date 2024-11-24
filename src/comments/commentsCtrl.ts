@@ -131,8 +131,7 @@ class CommentsCtrl{
 
         try {
 
-            const {commentId} = req.params;
-            const {id} = req.params;
+            const {commentId, id} = req.params;
 
             const comment = await CommentModel.findById(commentId).session(session);
             if (!comment) {

@@ -13,6 +13,9 @@ newsRouter.route('/:id')
    .put(newsCtrl.update)
    .delete(newsCtrl.delete);
 
+newsRouter.route('/:id/feedback')
+   .post(newsCtrl.feedback)
+
 newsRouter.use('/:id/comments',commentsRouter)
 
 export default newsRouter;
