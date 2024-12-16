@@ -11,7 +11,9 @@ class NewsCtrl{
     async getList(req:Request, res: Response){
         try {
             //TODO: mirar algun metodo de paginacion :)
-            const response = await NewModel.find({}).populate('createdBy',{
+            const response = await NewModel.find({})
+            .sort({ createdAt: -1 })
+            .populate('createdBy',{
                 email:1,
                 username: 1
                 //TODO: add photo
@@ -37,6 +39,8 @@ class NewsCtrl{
                 email:1,
                 username: 1,
                 photoUrl: 1
+            }).populate('tags',{
+                name:1
             });
 
             console.log(response)
@@ -53,8 +57,46 @@ class NewsCtrl{
     }
     async post(req: Request, res: Response){
         const body = req.body;
-        const response = await NewModel.create(body)
-        res.send(response);
+        const {user} = req.session;
+
+        if(['admin', 'editor'].some(o=>o===user.role)){ //TODO: hacerlo de una forma mas elegante c:
+
+            const session = await mongoose.startSession();
+            session.startTransaction();
+
+            try {
+                
+                body.createdBy = user.id;
+
+                const newNew = new NewModel(body);
+                const saveNew = await newNew.save({session});
+
+                await UserModel.findByIdAndUpdate(
+                    user.id,
+                    {
+                        $push: {newsCreated: saveNew._id}
+                    },
+                    {session}
+                )
+
+                await session.commitTransaction();
+                session.endSession();
+
+                res.send(saveNew);
+                
+            } catch (error) {
+                await session.abortTransaction();
+                session.endSession();
+                if (error instanceof Error){
+                    res.status(500).json({ error: error.message }); //TODO: no enviar nunca error.message
+                }else{
+                    res.status(500);
+                }
+            }
+        }else{
+            res.sendStatus(403)
+        }
+        
     }
 
     async feedback(req: Request, res: Response){

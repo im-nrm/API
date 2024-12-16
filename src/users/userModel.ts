@@ -8,7 +8,7 @@ const userModel = new mongoose.Schema(
             unique: true,
             trim: true,
             minlength: 3,
-            maxlength: 50
+            maxlength: 50//TODO: check maxlength
         },
         email:{
             type: String,
@@ -33,6 +33,15 @@ const userModel = new mongoose.Schema(
         birthDate: {
             type: Date
         },
+        role: {
+            type: String,
+            enum: ['admin', 'user', 'editor'], //TODO: añadir diferentes roles
+            default: 'user'
+        },
+        active: {
+            type: Boolean,
+            default: false
+        },
         achievements: {
             type: [mongoose.Types.ObjectId],
             ref: 'achievements'
@@ -50,6 +59,10 @@ const userModel = new mongoose.Schema(
             ref: 'news'
         },
         newsBookmarked:{
+            type: [mongoose.Types.ObjectId],
+            ref: 'news'
+        },
+        newsCreated:{
             type: [mongoose.Types.ObjectId],
             ref: 'news'
         }

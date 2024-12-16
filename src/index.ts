@@ -9,6 +9,7 @@ import run  from './config';
 import usersRoutes from './users/usersRoutes';
 import authRoutes from "./auth/authRoutes";
 import newsRoutes from './news/newsRoutes';
+import tagsRouter from "./tags/tagsRoutes";
 
 const PORT = process.env.PORT|| 5000;
 
@@ -51,6 +52,7 @@ app.use((req: Request, res: Response, next) =>{
 app.use('', authRoutes);
 app.use('/users', usersRoutes);
 app.use('/news', newsRoutes);
+app.use('/tags', tagsRouter);
 
 app.listen(PORT, () => {
     console.log('server up')

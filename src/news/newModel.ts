@@ -41,6 +41,11 @@ const newModel = new mongoose.Schema(
             type: [mongoose.Types.ObjectId],
             ref: 'comments'
 
+        },
+        tags: {
+            type: [mongoose.Types.ObjectId],
+            ref: 'tags'
+
         }
     },
     {
