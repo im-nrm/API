@@ -8,6 +8,9 @@ newsRouter.route('/')
    .get(newsCtrl.getList)
    .post(newsCtrl.post);
 
+newsRouter.route('/bookmark')
+   .post(newsCtrl.getBookmarks); //TODO: en un futuro puede ser mas que noticias
+
 newsRouter.route('/:id')
    .get(newsCtrl.getItem)
    .put(newsCtrl.update)

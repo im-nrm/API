@@ -10,6 +10,8 @@ import usersRoutes from './users/usersRoutes';
 import authRoutes from "./auth/authRoutes";
 import newsRoutes from './news/newsRoutes';
 import tagsRouter from "./tags/tagsRoutes";
+import commingSoonRouter from "./commingSoon/commingSoonRoutes";
+import bugReportRouter from "./bugReport/bugReportRoutes";
 
 const PORT = process.env.PORT|| 5000;
 
@@ -53,6 +55,8 @@ app.use('', authRoutes);
 app.use('/users', usersRoutes);
 app.use('/news', newsRoutes);
 app.use('/tags', tagsRouter);
+app.use('/commingSoon', commingSoonRouter);
+app.use('/bugReport', bugReportRouter);
 
 app.listen(PORT, () => {
     console.log('server up')

@@ -17,7 +17,30 @@ class NewsCtrl{
                 email:1,
                 username: 1
                 //TODO: add photo
-            })
+            }).populate('tags',{
+                name:1
+            });
+            res.json(response);
+            
+        } catch (error) {
+            if(error instanceof Error)
+                res.status(500).send(error.message);
+        }
+    }
+    async getBookmarks(req: Request, res: Response){
+        const body = req.body;
+
+        try {
+            //TODO: mirar algun metodo de paginacion :)
+            const response = await NewModel.find({ '_id': { $in: body } })
+            .sort({ createdAt: -1 })
+            .populate('createdBy',{
+                email:1,
+                username: 1
+                //TODO: add photo
+            }).populate('tags',{
+                name:1
+            });
             res.json(response);
             
         } catch (error) {
@@ -57,6 +80,7 @@ class NewsCtrl{
     }
     async post(req: Request, res: Response){
         const body = req.body;
+        //TODO: validaciones back
         const {user} = req.session;
 
         if(['admin', 'editor'].some(o=>o===user.role)){ //TODO: hacerlo de una forma mas elegante c:

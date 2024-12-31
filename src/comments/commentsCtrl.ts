@@ -13,8 +13,9 @@ class CommentsCtrl{
             const {id} = req.params;
             if(!id){
                 res.status(400).send({message: 'No se esta pasando la ID'});
+                return;
             }
-            const response = await CommentModel.find({}).populate('createdBy',{
+            const response = await CommentModel.find({sourceFontId: id, parentId: { $exists: false }}).populate('createdBy',{
                 email:1,
                 username: 1
                 //TODO: añadir todos los campos
@@ -58,43 +59,68 @@ class CommentsCtrl{
     }
     async post(req: Request, res: Response){
 
-        const session = await mongoose.startSession();
-        session.startTransaction();
+        const {user} = req.session;
 
-        try {
-            
-            const body = req.body;
-            const newComment = new CommentModel(body);
-            const saveComment = await newComment.save({session});
+        if(user && user.id){
+            const session = await mongoose.startSession();
+            session.startTransaction();
 
-            //Update de la noticia
-            //TODO: ver si se puede hacer generico para reutilizar los comentarios
-            await NewModel.findByIdAndUpdate(
-                newComment.sourceFontId,
-                {
-                    $inc: {numComments: 1},
-                    $push: {comments: saveComment._id}
-                },
-                {session}
-            );
+            try {
+                
+                const body = req.body;
+                body.createdBy = user.id;
 
 
-            // commit de los cambios
-            await session.commitTransaction();
-            session.endSession();
+                const newComment = new CommentModel(body);
+                const saveComment = await newComment.save({session});
 
-            res.send(newComment);
-            
-        } catch (error) {
-            await session.abortTransaction();
-            session.endSession();
-            if (error instanceof Error){
-                res.status(500).json({ error: error.message }); //TODO: no enviar nunca error.message
-            }else{
-                res.status(500);
+                //Update de la noticia
+                //TODO: ver si se puede hacer generico para reutilizar los comentarios
+                await NewModel.findByIdAndUpdate(
+                    newComment.sourceFontId,
+                    {
+                        $inc: {numComments: 1},
+                        $push: {comments: saveComment._id}
+                    },
+                    {session}
+                );
+
+                // SI es una respuesta, tendra parentId, por lo que hay que actualizar el comentario padre
+                if(body.parentId){
+
+                    await CommentModel.findByIdAndUpdate(
+                        body.parentId,
+                        {
+                            $inc: {numResponses: 1},
+                            $push: {responsesId: saveComment._id}
+                        },
+                        {session}
+                    );
+
+                }
+
+
+                // commit de los cambios
+                await session.commitTransaction();
+                session.endSession();
+
+                res.send(newComment);
+                
+            } catch (error) {
+                await session.abortTransaction();
+                session.endSession();
+                if (error instanceof Error){
+                    // res.status(500).json({ error: error.message }); //TODO: no enviar nunca error.message
+                }else{
+                    res.status(500);
+                }
+                
             }
-            
+        }else{
+            res.sendStatus(403);
         }
+
+        
         
     }
 

@@ -34,8 +34,17 @@ const commentModel = new mongoose.Schema(
             type: [mongoose.Types.ObjectId],
             ref: 'users'
         },
+        numResponses: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
         responsesId: {
             type: [mongoose.Types.ObjectId],
+            ref: 'comments'
+        },
+        parentId: { //TODO: updatear BBDD
+            type: mongoose.Types.ObjectId,
             ref: 'comments'
         }
 
