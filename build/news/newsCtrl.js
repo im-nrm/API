@@ -24,8 +24,8 @@ class NewsCtrl {
                 //TODO: mirar algun metodo de paginacion :)
                 const response = yield newModel_1.default.find({}).populate('createdBy', {
                     email: 1,
-                    username: 1
-                    //TODO: add photo
+                    username: 1,
+                    profilePhoto: 1
                 });
                 res.json(response);
             }

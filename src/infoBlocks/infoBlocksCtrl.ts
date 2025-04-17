@@ -1,17 +1,16 @@
 import { Request, Response } from "express";
-import NewModel from "./tagModel";
 import mongoose from "mongoose";
 import UserModel from "../users/userModel";
-import TagModel from "./tagModel";
+import InfoBlockModel from "./infoBlocksModel";
 
-class NewsCtrl{
+class InfoBlocksCtrl{
     constructor(){
 
     }
 
     async getList(req:Request, res: Response){
         try {
-            const response = await NewModel.find({})
+            const response = await InfoBlockModel.find({})
             .populate('createdBy',{
                 email:1,
                 username: 1,
@@ -24,33 +23,29 @@ class NewsCtrl{
                 res.status(500).send(error.message);
         }
     }
+
+    async getActive(req:Request, res: Response){
+        try {
+            //TODO: tambien tener en cuenta el expirationDate
+            const response = await InfoBlockModel.find({active: true})
+            .sort({ createdAt: -1 })
+            // No creo que sea necesario elm populate
+            // .populate('createdBy',{
+            //     email:1,
+            //     username: 1,
+            //     profilePhoto: 1
+            // })
+            res.json(response);
+            
+        } catch (error) {
+            if(error instanceof Error)
+                res.status(500).send(error.message);
+        }
+    }
+
     async getItem(req: Request, res: Response){
         res.status(500).send('no implementado');
         return;
-        try {
-            const {id} = req.params;
-            const response = await NewModel.findByIdAndUpdate(
-                id,
-                {
-                    $inc: {views: 1}
-                },
-                {new: true} // el new: true devuelve el valor ya updateado
-            ).populate('createdBy',{
-                email:1,
-                username: 1,
-                photoUrl: 1
-            });
-
-            console.log(response)
-
-            // commit de los cambios
-
-            res.json(response);
-
-        } catch (error) {
-            if(error instanceof Error)
-                res.status(500).send(error);
-        }
         
     }
     async post(req: Request, res: Response){
@@ -69,8 +64,8 @@ class NewsCtrl{
                     let _aux = body.expirationDate
                     body.expirationDate = new Date(_aux);
                 }
-                
-                const response = await TagModel.create(body)
+                console.log(body)
+                const response = await InfoBlockModel.create(body)
                 res.send(response);
 
             }catch(error){
@@ -90,7 +85,7 @@ class NewsCtrl{
         const {id} = req.params;
         const body = req.body;
 
-        const response = await NewModel.findByIdAndUpdate(id, body)
+        const response = await InfoBlockModel.findByIdAndUpdate(id, body)
 
         
         res.json(response)
@@ -101,7 +96,7 @@ class NewsCtrl{
 
         if(['admin'].some(o=>o===user.role)){ //TODO: hacerlo de una forma mas elegante c:
             const {id} = req.params;
-            const response = await NewModel.findByIdAndDelete(id)
+            const response = await InfoBlockModel.findByIdAndDelete(id)
             res.json(response)
 
         }else{
@@ -112,4 +107,4 @@ class NewsCtrl{
 
 }
 
-export default new NewsCtrl();
+export default new InfoBlocksCtrl();

@@ -27,7 +27,8 @@ class CommentsCtrl {
                 }
                 const response = yield commentModel_1.default.find({}).populate('createdBy', {
                     email: 1,
-                    username: 1
+                    username: 1,
+                    profilePhoto: 1
                     //TODO: añadir todos los campos
                 }).populate('responsesId').populate('likedBy', {
                     email: 1,
@@ -47,7 +48,8 @@ class CommentsCtrl {
                 //TODO: get responses
                 const response = yield commentModel_1.default.find({}).populate('createdBy', {
                     email: 1,
-                    username: 1
+                    username: 1,
+                    profilePhoto: 1
                     //TODO: añadir todos los campos
                 }).populate('responsesId').populate('likedBy', {
                     email: 1,
@@ -66,7 +68,8 @@ class CommentsCtrl {
             const { id } = req.params;
             const response = yield commentModel_1.default.findById(id).populate('createdBy', {
                 email: 1,
-                username: 1
+                username: 1,
+                profilePhoto: 1
             });
             res.json(response);
         });

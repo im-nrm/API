@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const commingSoonModel = new mongoose.Schema(
+const comingSoonModel = new mongoose.Schema(
     {
         title:{
             type: String,
@@ -31,5 +31,5 @@ const commingSoonModel = new mongoose.Schema(
 )
 //TODO: check: si es necesario añadir mas cosas
 //TODO 2: añadir esto en el esquema c:
-const CommingSoonModel = mongoose.model('commingSoon', commingSoonModel);
-export default CommingSoonModel;
+const ComingSoonModel = mongoose.model('comingSoon', comingSoonModel);
+export default ComingSoonModel;

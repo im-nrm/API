@@ -1,18 +1,18 @@
 import { Request, Response } from "express";
-import CommingSoonModel from "./commingSoonModel";
+import ComingSoonModel from "./comingSoonModel";
 
-class CommingSoonCtrl{
+class ComingSoonCtrl{
     constructor(){
 
     }
 
     async getList(req:Request, res: Response){
         try {
-            const response = await CommingSoonModel.find({})
+            const response = await ComingSoonModel.find({})
             .populate('createdBy',{
                 email:1,
-                username: 1
-                //TODO: add photo
+                username: 1,
+                profilePhoto: 1
             })
             res.json(response);
             
@@ -26,7 +26,7 @@ class CommingSoonCtrl{
         return;
         try {
             const {id} = req.params;
-            const response = await CommingSoonModel.findByIdAndUpdate(
+            const response = await ComingSoonModel.findByIdAndUpdate(
                 id,
                 {
                     $inc: {views: 1}
@@ -35,7 +35,7 @@ class CommingSoonCtrl{
             ).populate('createdBy',{
                 email:1,
                 username: 1,
-                photoUrl: 1
+                profilePhoto: 1
             });
 
             console.log(response)
@@ -60,7 +60,7 @@ class CommingSoonCtrl{
 
                 body.createdBy = user.id;
                 
-                const response = await CommingSoonModel.create(body)
+                const response = await ComingSoonModel.create(body)
                 res.send(response);
 
             }catch(error){
@@ -92,7 +92,7 @@ class CommingSoonCtrl{
         
         if(['admin'].some(o=>o===user.role)){ //TODO: hacerlo de una forma mas elegante c:
             const {id} = req.params;
-            const response = await CommingSoonModel.findByIdAndDelete(id)
+            const response = await ComingSoonModel.findByIdAndDelete(id)
             res.json(response)
 
         }else{
@@ -104,4 +104,4 @@ class CommingSoonCtrl{
 
 }
 
-export default new CommingSoonCtrl();
+export default new ComingSoonCtrl();

@@ -8,7 +8,7 @@ bugReportRouter.route('/')
    .post(bugReportCtrl.post);
 
    bugReportRouter.route('/:id')
-   // .get(commingSoonCtrl.getItem)
+   // .get(comingSoonCtrl.getItem)
    .put(bugReportCtrl.update)
    .delete(bugReportCtrl.delete);
 

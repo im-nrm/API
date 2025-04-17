@@ -21,8 +21,9 @@ const userModel = new mongoose.Schema(
             required: true
             // minlength: 6
         },
-        photoUrl:{
-            type: String
+        profilePhoto:{
+            type: String,
+            default: 'uploads/users/profilephoto/default/default.png'
         },
         name: {
             type: String
@@ -37,10 +38,6 @@ const userModel = new mongoose.Schema(
             type: String,
             enum: ['admin', 'user', 'editor'], //TODO: añadir diferentes roles
             default: 'user'
-        },
-        active: {
-            type: Boolean,
-            default: false
         },
         achievements: {
             type: [mongoose.Types.ObjectId],
@@ -65,6 +62,13 @@ const userModel = new mongoose.Schema(
         newsCreated:{
             type: [mongoose.Types.ObjectId],
             ref: 'news'
+        },
+        validated:{
+            type: Boolean,
+            default: false
+        },
+        lastLogin: {
+            type: Date
         }
     },
     {
@@ -72,5 +76,8 @@ const userModel = new mongoose.Schema(
     }
 )
 
+//TODO: añadir al miro las variables faltantes
+
 const UserModel = mongoose.model("users", userModel);
 export default UserModel; //TODO: UserModel
+

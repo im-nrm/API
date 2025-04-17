@@ -10,8 +10,10 @@ import usersRoutes from './users/usersRoutes';
 import authRoutes from "./auth/authRoutes";
 import newsRoutes from './news/newsRoutes';
 import tagsRouter from "./tags/tagsRoutes";
-import commingSoonRouter from "./commingSoon/commingSoonRoutes";
+import comingSoonRouter from "./comingSoon/comingSoonRoutes";
 import bugReportRouter from "./bugReport/bugReportRoutes";
+import path from "path";
+import infoBlocksRouter from "./infoBlocks/infoBlocksRoutes";
 
 const PORT = process.env.PORT|| 5000;
 
@@ -36,6 +38,9 @@ app.use(cors(corsOptions))
 app.use(express.json());
 app.use(cookieParser());
 
+//Archivos estaticos:
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
 app.use((req: Request, res: Response, next) =>{
     const token = req.cookies.access_token;
     let data = null;
@@ -55,8 +60,11 @@ app.use('', authRoutes);
 app.use('/users', usersRoutes);
 app.use('/news', newsRoutes);
 app.use('/tags', tagsRouter);
-app.use('/commingSoon', commingSoonRouter);
+app.use('/comingSoon', comingSoonRouter);
 app.use('/bugReport', bugReportRouter);
+app.use('/infoBlocks', infoBlocksRouter);
+
+app.use("/ttt", express.static(path.join(__dirname, "../../uploads")));
 
 app.listen(PORT, () => {
     console.log('server up')

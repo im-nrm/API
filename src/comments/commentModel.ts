@@ -34,6 +34,10 @@ const commentModel = new mongoose.Schema(
             type: [mongoose.Types.ObjectId],
             ref: 'users'
         },
+        dislikedBy: { //TODO: updatear BBDD
+            type: [mongoose.Types.ObjectId],
+            ref: 'users'
+        },
         numResponses: {
             type: Number,
             default: 0,
@@ -46,6 +50,10 @@ const commentModel = new mongoose.Schema(
         parentId: { //TODO: updatear BBDD
             type: mongoose.Types.ObjectId,
             ref: 'comments'
+        },
+        favoriteBy: { //TODO: updatear BBDD
+            type: [mongoose.Types.ObjectId],
+            ref: 'users'
         }
 
     },

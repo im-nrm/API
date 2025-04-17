@@ -11,8 +11,8 @@ class BugReportCtrl{
             const response = await BugReportModel.find({})
             .populate('createdBy',{
                 email:1,
-                username: 1
-                //TODO: add photo
+                username: 1,
+                profilePhoto: 1
             })
             res.json(response);
             
@@ -35,7 +35,7 @@ class BugReportCtrl{
             ).populate('createdBy',{
                 email:1,
                 username: 1,
-                photoUrl: 1
+                profilePhoto: 1
             });
 
             console.log(response)
