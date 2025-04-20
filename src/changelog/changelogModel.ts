@@ -1,23 +1,18 @@
 import mongoose from "mongoose";
 
-const comingSoonModel = new mongoose.Schema(
+const changelogModel = new mongoose.Schema(
     {
-        title:{
+        type:{
+            type: String,
+            enum: ['Platform', 'API'],
+            required: true,
+        },
+        version:{
             type: String,
             required: true,
         },
         description: {
             type: String,
-        },
-        icon:{
-            type: String,
-        },
-        active:{
-            type: Boolean,
-            default: false
-        },
-        expirationDate:{
-            type: Date
         },
         createdBy:{
             type: mongoose.Types.ObjectId,
@@ -31,5 +26,5 @@ const comingSoonModel = new mongoose.Schema(
 )
 //TODO: check: si es necesario añadir mas cosas
 //TODO 2: añadir esto en el esquema c:
-const ComingSoonModel = mongoose.model('comingSoon', comingSoonModel);
-export default ComingSoonModel;
+const ChangelogModel = mongoose.model('comingSoon', changelogModel);
+export default ChangelogModel;

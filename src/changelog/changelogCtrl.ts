@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import ComingSoonModel from "./comingSoonModel";
-
+import ComingSoonModel from "./changelogModel";
+//FIXME: Ahora esta en comingsoon, cambiar a changelog
 class ComingSoonCtrl{
     constructor(){
 

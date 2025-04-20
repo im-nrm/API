@@ -80,15 +80,18 @@ class InfoBlocksCtrl{
     }
 
     async update(req: Request, res: Response){
-        res.status(500).send('no implementado');
-        return
-        const {id} = req.params;
-        const body = req.body;
-
-        const response = await InfoBlockModel.findByIdAndUpdate(id, body)
-
         
-        res.json(response)
+        const body = req.body;
+        const {user} = req.session;
+
+        if(['admin'].some(o=>o===user.role)){ //TODO: hacerlo de una forma mas elegante c:
+            const {id} = req.params;
+            const response = await InfoBlockModel.findByIdAndUpdate(id, body)
+            res.json(response)
+
+        }else{
+            res.sendStatus(403)
+        }
     }
 
     async delete(req: Request, res: Response){
